@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register User</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="text-center mb-4">
+            <img src="../path/to/logo.png" alt="Green Alert Logo" class="mb-3" style="max-width: 150px;">
+            <h1>Register User</h1>
+        </div>
+        <form action="/register" method="POST">
+            <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Enter your full name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter your phone number" required>
+            </div>
+            <div class="form-group">
+                <label for="alertPreference">Alert Preference</label>
+                <select class="form-control" id="alertPreference" name="alertPreference" required>
+                    <option value="sms">SMS</option>
+                    <option value="phone">Phone</option>
+                    <option value="both">Both</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="location">Location</label>
+                <input type="text" class="form-control" id="location" name="location" placeholder="Your location will be auto-detected" readonly>
+                <small class="form-text text-muted">If location is not detected, please enter it manually.</small>
+            </div>
+            <div class="form-group">
+                <label for="manualLocation">Manual Location</label>
+                <input type="text" class="form-control" id="manualLocation" name="manualLocation" placeholder="Enter your location manually">
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Register</button>
+        </form>
+    </div>
+
+    <script>
+        // Attempt to get user's location automatically
+        document.addEventListener("DOMContentLoaded", function () {
+            const locationInput = document.getElementById("location");
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const { latitude, longitude } = position.coords;
+                        locationInput.value = `Lat: ${latitude}, Long: ${longitude}`;
+                    },
+                    () => {
+                        locationInput.placeholder = "Unable to detect location. Please enter manually.";
+                    }
+                );
+            } else {
+                locationInput.placeholder = "Geolocation is not supported by your browser.";
+            }
+        });
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
