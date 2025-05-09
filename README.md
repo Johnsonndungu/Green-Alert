@@ -10,7 +10,6 @@ Green Alert is an innovative climate adaptation platform that uses blockchain an
 - 🧠 **AI-Powered Recommendations** using third-party AI APIs
 - 🔗 **Blockchain Integration** for data verification and transparency
 - 📊 **User Dashboard** for monitoring alerts and actions
-- 🧾 **Farmer ID System (Planned)** using Decentralized Identifiers (DIDs)
 
 ---
 
@@ -21,8 +20,6 @@ Green Alert is an innovative climate adaptation platform that uses blockchain an
 - **AI Integration**: Third-party AI APIs (e.g., weather + soil data analysis)
 - **Blockchain**: Cardano (via smart contracts & metadata), multi-chain ready
 - **Messaging**: Twilio for SMS, SendGrid for Email
-- **Database**: Firebase / PostgreSQL (based on deployment phase)
-- **Hosting**: Render, Heroku, or DigitalOcean
 
 ---
 
@@ -43,10 +40,3 @@ Green Alert is an innovative climate adaptation platform that uses blockchain an
    - SMS, Email, and Web Dashboard alerts pushed to users
 
 ---
-
-## 📦 Installation
-
-1. Clone this repo:
-   ```bash
-   git clone https://github.com/yourusername/green-alert.git
-   cd green-alert
