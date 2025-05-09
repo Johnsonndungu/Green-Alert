@@ -5,12 +5,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register User</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .form-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-header img {
+            max-width: 100px;
+            margin-bottom: 10px;
+        }
+        .form-header h1 {
+            font-size: 24px;
+            color: #28a745;
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+        .btn-primary {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+        .btn-primary:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+        .form-text {
+            font-size: 12px;
+            color: #6c757d;
+        }
+        @media (max-width: 576px) {
+            .container {
+                padding: 15px;
+            }
+            .form-header h1 {
+                font-size: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="container mt-5">
-        <div class="text-center mb-4">
-            <img src="../path/to/logo.png" alt="Green Alert Logo" class="mb-3" style="max-width: 150px;">
+    <div class="container">
+        <div class="form-header">
+            <img src="../path/to/logo.png" alt="Green Alert Logo">
             <h1>Register User</h1>
         </div>
         <form action="/register" method="POST">
@@ -37,7 +85,7 @@
             <div class="form-group">
                 <label for="location">Location</label>
                 <input type="text" class="form-control" id="location" name="location" placeholder="Your location will be auto-detected" readonly>
-                <small class="form-text text-muted">If location is not detected, please enter it manually.</small>
+                <small class="form-text">If location is not detected, please enter it manually.</small>
             </div>
             <div class="form-group">
                 <label for="manualLocation">Manual Location</label>

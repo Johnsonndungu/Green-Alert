@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import secrets
 import mysql.connector
-from werkzeug.security import check_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
@@ -91,6 +91,45 @@ def admin_dashboard():
     if session.get('user_type') != 'admin':
         return redirect(url_for('admin_login'))
     return render_template('admin_dashboard.html')
+
+# Register route
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        full_name = request.form.get('full_name')
+        email = request.form.get('email')
+        phone = request.form.get('phone')
+        location = request.form.get('location')
+
+        try:
+            # Connect to the database
+            connection = create_db_connection()
+            if not connection:
+                return "Database connection failed", 500
+
+            cursor = connection.cursor()
+            # Insert user into the database
+            query = """
+                INSERT INTO users (full_name, email, password, phone, location)
+                VALUES (%s, %s, %s, %s, %s)
+            """
+            cursor.execute(query, (full_name, email, phone, location))
+            connection.commit()
+
+            return redirect(url_for('regsuccess'))  # Redirect to login after successful registration
+        except mysql.connector.Error as err:
+            print(f"Error: {err}")
+            return "An error occurred while registering", 500
+        finally:
+            if connection:
+                connection.close()
+
+    return render_template('register_user.html')
+
+# Registration success route
+@app.route('/regsuccess')
+def regsuccess():
+    return render_template('reg_success.html')
 
 # Staff dashboard route
 @app.route('/staff/dashboard')
