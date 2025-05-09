@@ -10,10 +10,10 @@ def create_db_connection():
     try:
     # Connect to the MySQL database
         connection = mysql.connector.connect(
-            host="localhost",       # Replace with your MySQL host
-            user="your_username",   # Replace with your MySQL username
-            password="your_password",  # Replace with your MySQL password
-            database="green_alert"  # Replace with your database name
+            host="localhost",       
+            user="your_username",   
+            password="your_password",
+            database="green_alert"  
         )
         if connection.is_connected():
             print("Connected to MySQL database")
