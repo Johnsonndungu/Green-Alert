@@ -1,0 +1,6 @@
+Flask==2.3.2
+mysql-connector-python==8.0.33
+Werkzeug==2.3.2
+twilio==7.16.0
+requests==2.31.0
+openai==0.27.8
