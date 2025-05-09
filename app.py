@@ -45,6 +45,10 @@ def verify_user(email, password):
         return None
     
 
+app.route('/')
+def index():
+    return render_template('index.html')
+
 # Admin login route
 @app.route('/admin/login', methods=['GET', 'POST'])
 def admin_login():
