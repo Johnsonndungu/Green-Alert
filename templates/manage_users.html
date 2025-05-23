@@ -11,6 +11,34 @@
         <div class="text-center mb-4">
             <h1>Manage Users</h1>
         </div>
+        <!-- Stats Section -->
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="card text-white bg-success mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Users</h5>
+                        <p class="card-text display-4">{{ total_users }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-white bg-info mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Staff</h5>
+                        <p class="card-text display-4">{{ total_staff }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <a href="/total_staff" class="card text-white bg-primary mb-3 text-decoration-none">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Staff Dashboard</h5>
+                        <p class="card-text"><span class="display-4">{{ total_staff }}</span> Staff</p>
+                        <span class="btn btn-light btn-sm mt-2">Go to Staff Dashboard</span>
+                    </div>
+                </a>
+            </div>
+        </div>
         <table class="table table-striped">
             <thead class="thead-dark">
                 <tr>
@@ -30,7 +58,6 @@
                     <td>{{ user.phone }}</td>
                     <td>{{ user.alert_preference }}</td>
                     <td>
-                        <a href="/edit_user/{{ user.id }}" class="btn btn-primary btn-sm">Edit</a>
                         <a href="/delete_user/{{ user.id }}" class="btn btn-danger btn-sm">Delete</a>
                     </td>
                 </tr>

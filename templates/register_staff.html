@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Staff - Green Alert</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 25px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(40,167,69,0.08);
+        }
+        .form-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-header h1 {
+            font-size: 24px;
+            color: #28a745;
+        }
+        .btn-primary {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+        .btn-primary:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+        @media (max-width: 576px) {
+            .container {
+                padding: 10px;
+            }
+            .form-header h1 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-header">
+            <h1>Register Staff</h1>
+        </div>
+        <form action="/register_staff" method="POST">
+            <div class="form-group">
+                <label for="full_name">Full Name</label>
+                <input type="text" class="form-control" id="full_name" name="full_name" placeholder="Enter full name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter phone number" required>
+            </div>
+            <div class="form-group">
+                <label for="location">Location (County)</label>
+                <select class="form-control" id="location" name="location" required>
+                    <option value="">Select County</option>
+                    <option value="Baringo">Baringo</option>
+                    <option value="Bomet">Bomet</option>
+                    <option value="Bungoma">Bungoma</option>
+                    <option value="Busia">Busia</option>
+                    <option value="Elgeyo Marakwet">Elgeyo Marakwet</option>
+                    <option value="Embu">Embu</option>
+                    <option value="Garissa">Garissa</option>
+                    <option value="Homa Bay">Homa Bay</option>
+                    <option value="Isiolo">Isiolo</option>
+                    <option value="Kajiado">Kajiado</option>
+                    <option value="Kakamega">Kakamega</option>
+                    <option value="Kericho">Kericho</option>
+                    <option value="Kiambu">Kiambu</option>
+                    <option value="Kilifi">Kilifi</option>
+                    <option value="Kirinyaga">Kirinyaga</option>
+                    <option value="Kisii">Kisii</option>
+                    <option value="Kisumu">Kisumu</option>
+                    <option value="Kitui">Kitui</option>
+                    <option value="Kwale">Kwale</option>
+                    <option value="Laikipia">Laikipia</option>
+                    <option value="Lamu">Lamu</option>
+                    <option value="Machakos">Machakos</option>
+                    <option value="Makueni">Makueni</option>
+                    <option value="Mandera">Mandera</option>
+                    <option value="Marsabit">Marsabit</option>
+                    <option value="Meru">Meru</option>
+                    <option value="Migori">Migori</option>
+                    <option value="Mombasa">Mombasa</option>
+                    <option value="Murang'a">Murang'a</option>
+                    <option value="Nairobi">Nairobi</option>
+                    <option value="Nakuru">Nakuru</option>
+                    <option value="Nandi">Nandi</option>
+                    <option value="Narok">Narok</option>
+                    <option value="Nyamira">Nyamira</option>
+                    <option value="Nyandarua">Nyandarua</option>
+                    <option value="Nyeri">Nyeri</option>
+                    <option value="Samburu">Samburu</option>
+                    <option value="Siaya">Siaya</option>
+                    <option value="Taita Taveta">Taita Taveta</option>
+                    <option value="Tana River">Tana River</option>
+                    <option value="Tharaka Nithi">Tharaka Nithi</option>
+                    <option value="Trans Nzoia">Trans Nzoia</option>
+                    <option value="Turkana">Turkana</option>
+                    <option value="Uasin Gishu">Uasin Gishu</option>
+                    <option value="Vihiga">Vihiga</option>
+                    <option value="Wajir">Wajir</option>
+                    <option value="West Pokot">West Pokot</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Create password" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Register Staff</button>
+        </form>
+    </div>
+</body>
+</html>

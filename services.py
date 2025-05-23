@@ -7,7 +7,6 @@ from app import create_db_connection
 weather_api_url = "https://api.openweathermap.org/data/2.5/forecast"  
 api_key = "your_api_key"  
 
-
 def get_unique_locations():
     """
     Fetch unique user locations from the MySQL database. If a location is shared by 10 or more users,
