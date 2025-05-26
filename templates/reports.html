@@ -5,6 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reports</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .chart-container {
+            margin: 40px auto;
+            max-width: 600px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 16px rgba(40,167,69,0.08);
+            padding: 30px 20px;
+        }
+    </style>
 </head>
 <body>
     <div class="container mt-5">
@@ -12,6 +23,16 @@
             <h1>System Reports</h1>
         </div>
         <div class="row">
+            <div class="col-md-6 chart-container">
+                <h5 class="text-center">Users by County</h5>
+                <canvas id="countyPieChart"></canvas>
+            </div>
+            <div class="col-md-6 chart-container">
+                <h5 class="text-center">Gender Distribution</h5>
+                <canvas id="genderPieChart"></canvas>
+            </div>
+        </div>
+        <div class="row mt-5">
             <div class="col-md-12">
                 <table class="table table-striped">
                     <thead class="thead-dark">
@@ -46,5 +67,64 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Data passed from Flask backend
+        const countyLabels = {{ county_labels|tojson }};
+        const countyData = {{ county_data|tojson }};
+        const genderLabels = {{ gender_labels|tojson }};
+        const genderData = {{ gender_data|tojson }};
+
+        // Generate unique colors for counties
+        function generateColors(count) {
+            const colors = [];
+            for (let i = 0; i < count; i++) {
+                const hue = Math.floor((360 / count) * i);
+                colors.push(`hsl(${hue}, 70%, 50%)`);
+            }
+            return colors;
+        }
+
+        // County Pie Chart
+        const ctxCounty = document.getElementById('countyPieChart').getContext('2d');
+        new Chart(ctxCounty, {
+            type: 'pie',
+            data: {
+                labels: countyLabels,
+                datasets: [{
+                    data: countyData,
+                    backgroundColor: generateColors(countyLabels.length),
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+
+        // Gender Pie Chart
+        const ctxGender = document.getElementById('genderPieChart').getContext('2d');
+        new Chart(ctxGender, {
+            type: 'pie',
+            data: {
+                labels: genderLabels,
+                datasets: [{
+                    data: genderData,
+                    backgroundColor: ['#36A2EB', '#FF6384'],
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 </html>

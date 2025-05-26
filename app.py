@@ -197,19 +197,19 @@ def staff_dashboard():
     return render_template('staff_dashboard.html')
 
 # Manage users route
-@app.route('/manage_users')
+@app.route('/admin/dashboard/manage_users')
 def manage_users():
     # Add logic to fetch and display users
     return render_template('manage_users.html')
 
 # Manage alerts route
-@app.route('/manage_alerts')
+@app.route('/admin/dashboard/manage_alerts')
 def manage_alerts():
     # Add logic to fetch and display alerts
     return render_template('manage_alerts.html')
 
 # Reports route
-@app.route('/reports')
+@app.route('/admin/dashboard/reports')
 def reports():
     # Add logic to fetch and display reports
     return render_template('reports.html')
@@ -311,8 +311,6 @@ def reset_password(token):
                 connection.close()
 
     return render_template('reset_password.html', token=token)
-
-
 
 # Logout route
 @app.route('/logout')
