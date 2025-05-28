@@ -1,12 +1,15 @@
 import token
 from flask import Flask, render_template, request, redirect, url_for, session
 import secrets
-from flask_login import current_user, logout_user
+from flask_login import current_user, login_required, logout_user
 from flask_mail import Mail, Message
 from itsdangerous import BadSignature, SignatureExpired, URLSafeTimedSerializer
 import mysql.connector
 from werkzeug.security import check_password_hash, generate_password_hash
+from functools import wraps
+from flask import redirect, url_for, session
 
+# Initialize Flask application
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
 
@@ -29,7 +32,7 @@ def create_db_connection():
     # Connect to the MySQL database
         connection = mysql.connector.connect(
             host="localhost",       
-            user="your_username",   
+             user="your_username",   
             password="your_password",
             database="green_alert"  
         )
@@ -61,6 +64,19 @@ def verify_user(email, password):
     except mysql.connector.Error as err:
         print(f"Error: {err}")
         return None
+    
+# Decorator to check user role
+def role_required(role):
+    def decorator(f):
+        @wraps(f)
+        def decorated_function(*args, **kwargs):
+            if session.get('user_type') != role:
+                return redirect(url_for('admin_login'))
+            if session.get('user_type') != role:
+                return redirect(url_for('staff_login'))
+            return f(*args, **kwargs)
+        return decorated_function
+    return decorator
 
 @app.route('/')
 def index():
@@ -97,26 +113,30 @@ def staff_login():
         # Replace with actual staff authentication logic
         if username == 'staff' and password == 'staff123':
             session['user_type'] = 'staff'
-            return redirect(url_for('staff_dashboard'))
+            return redirect(url_for('+staff_dashboard'))
         else:
             return "Invalid credentials", 401
     return render_template('staff_login.html')
 
 # Admin dashboard route
 @app.route('/admin/dashboard')
+@login_required
+@role_required('admin')
 def admin_dashboard():
     #if session.get('user_type') != 'admin':
     #    return redirect(url_for('admin_login'))
     return render_template('admin_dashboard.html')
-
 # Total staff
 @app.route('/admin/dashboard/total_staff')
+@login_required
+@role_required('admin')
 def total_staff_dash():
     return render_template('manage_staff.html')
 
-
 # Register staff route
 @app.route('/admin/dashboard/register_staff', methods=['GET', 'POST'])
+@login_required
+@role_required('admin')
 def register_staff():
     if request.method == 'POST':
         full_name = request.form.get('full_name')
@@ -152,6 +172,8 @@ def register_staff():
 
 # Register user route
 @app.route('/staff/register', methods=['GET', 'POST'])
+@login_required
+@role_required('staff')
 def register():
     if request.method == 'POST':
         full_name = request.form.get('full_name')
@@ -191,6 +213,8 @@ def regsuccess():
 
 # Staff dashboard route
 @app.route('/staff/dashboard')
+@login_required
+@role_required('staff')
 def staff_dashboard():
     if session.get('user_type') != 'staff':
         return redirect(url_for('staff_login'))
@@ -198,24 +222,32 @@ def staff_dashboard():
 
 # Manage users route
 @app.route('/admin/dashboard/manage_users')
+@login_required
+@role_required('admin')
 def manage_users():
     # Add logic to fetch and display users
     return render_template('manage_users.html')
 
 # Manage alerts route
 @app.route('/admin/dashboard/manage_alerts')
+@login_required
+@role_required('admin')
 def manage_alerts():
     # Add logic to fetch and display alerts
     return render_template('manage_alerts.html')
 
 # Reports route
 @app.route('/admin/dashboard/reports')
+@login_required
+@role_required('admin')
 def reports():
     # Add logic to fetch and display reports
     return render_template('reports.html')
 
 # Delete staff
 @app.route('/delete_staff/<int:staff_id>')
+@login_required
+@role_required('admin')
 def delete_staff(staff_id):
     try:
         connection = create_db_connection()
@@ -256,6 +288,7 @@ def find_user_by_email(email):
 
 # Forgot password route
 @app.route('/forgot_password', methods=['GET', 'POST'])
+@login_required
 def forgot_password():
     source = request.args.get('source')
 

@@ -1,11 +1,13 @@
-import openai  
+import requests
+import os
 
-# Set OpenAI API key
-openai.api_key = "your_openai_api_key"  
+# Set your Google AI Studio API key
+GOOGLE_AI_API_KEY = "your_google_ai_api_key"
+GOOGLE_AI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent"
 
-def get_recommendations_from_openai(weather_data):
+def get_recommendations_from_google_ai(weather_data):
     """
-    Send weather data to OpenAI API and receive recommendations for each unique location.
+    Send weather data to Google AI Studio API and receive recommendations for each unique location.
 
     Args:
         weather_data (dict): A dictionary with locations as keys and their respective weather forecasts as values.
@@ -16,23 +18,33 @@ def get_recommendations_from_openai(weather_data):
     recommendations = {}
 
     for location, forecast in weather_data.items():
-        # prompt for OpenAI
-        prompt = f"""
-        Based on the following weather forecast for {location}, provide recommendations for activities, precautions, or alerts:
-        {forecast}
-        """
+        prompt = f"Based on the following weather forecast for {location}, provide recommendations for activities, precautions, or alerts:\n{forecast}"
+
+        headers = {
+            "Content-Type": "application/json"
+        }
+        params = {
+            "key": GOOGLE_AI_API_KEY
+        }
+        data = {
+            "contents": [
+                {
+                    "parts": [
+                        {"text": prompt}
+                    ]
+                }
+            ]
+        }
 
         try:
-            # Send the prompt to OpenAI API
-            response = openai.Completion.create(
-                engine="text-davinci-003",  # Use the appropriate engine
-                prompt=prompt,
-                max_tokens=150
-            )
-
-            # Extract the recommendation from the response
-            recommendations[location] = response.choices[0].text.strip()
-
+            response = requests.post(GOOGLE_AI_API_URL, headers=headers, params=params, json=data)
+            if response.status_code == 200:
+                result = response.json()
+                # Extract the generated text from the response
+                recommendation = result.get("candidates", [{}])[0].get("content", {}).get("parts", [{}])[0].get("text", "")
+                recommendations[location] = recommendation.strip()
+            else:
+                print(f"Failed to get recommendations for {location}. Status code: {response.status_code}")
         except Exception as e:
             print(f"Failed to get recommendations for {location}. Error: {e}")
 
