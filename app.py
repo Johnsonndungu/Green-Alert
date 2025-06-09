@@ -78,6 +78,7 @@ def role_required(role):
         return decorated_function
     return decorator
 
+# Home route
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -110,12 +111,16 @@ def staff_login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        # Replace with actual staff authentication logic
-        if username == 'staff' and password == 'staff123':
-            session['user_type'] = 'staff'
-            return redirect(url_for('+staff_dashboard'))
-        else:
+        
+        if not username or not password:
             return "Invalid credentials", 401
+        
+        staff = verify_user(username, password)
+        if staff and staff['role'] == 'staff':
+            session['user_type'] = 'staff'
+            return redirect(url_for('staff_dashboard'))
+        else:
+            return render_template('login_error.html')
     return render_template('staff_login.html')
 
 # Admin dashboard route
@@ -126,6 +131,7 @@ def admin_dashboard():
     #if session.get('user_type') != 'admin':
     #    return redirect(url_for('admin_login'))
     return render_template('admin_dashboard.html')
+
 # Total staff
 @app.route('/admin/dashboard/total_staff')
 @login_required
