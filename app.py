@@ -8,20 +8,26 @@ import mysql.connector
 from werkzeug.security import check_password_hash, generate_password_hash
 from functools import wraps
 from flask import redirect, url_for, session
+from dotenv import load_dotenv
+import os
 
 # Initialize Flask application
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
 
+# Load environment variables from .env file
+load_dotenv(dotenv_path='set.env')
+
+
 #for generating password rest tokens
 s = URLSafeTimedSerializer(app.secret_key)
 
 #Mail configuration
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 587
+app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER')
+app.config['MAIL_PORT'] = os.getenv('MAIL_PORT')
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = ''
-app.config['MAIL_PASSWORD'] = ''
+app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
 app.config['MAIL_DEFAULT_SENDER'] = ''
 
 mail = Mail(app)
@@ -31,19 +37,19 @@ def create_db_connection():
     try:
     # Connect to the MySQL database
         connection = mysql.connector.connect(
-            host="localhost",       
-             user="your_username",   
-            password="your_password",
-            database="green_alert"  
+            host=os.getenv("MYSQL_HOST"),       
+             user=os.getenv("MYSQL_USER"),   
+            password=os.getenv("MYSQL_PASSWORD"),
+            database=os.getenv("MYSQL_DATABASE")  
         )
+
         if connection.is_connected():
-            print("Connected to MySQL database")
+            print("Connected to MySQL database")  
         else:
-            print("Failed to connect to MySQL database")
+            print("Failed to connect to My SQL database")
             return None
     except mysql.connector.Error as err:
             print(f"Error: {err}")
-            return None
 
 def verify_user(email, password):
     try:
@@ -128,8 +134,8 @@ def staff_login():
 @login_required
 @role_required('admin')
 def admin_dashboard():
-    #if session.get('user_type') != 'admin':
-    #    return redirect(url_for('admin_login'))
+    if session.get('user_type') != 'admin':
+        return redirect(url_for('admin_login'))
     return render_template('admin_dashboard.html')
 
 # Total staff
